@@ -1,0 +1,9 @@
+exports[`Switcher should render 1`] = `
+<div>
+  <input />
+  <button
+    onClick={Object {}}>
+    Search
+  </button>
+</div>
+`;
