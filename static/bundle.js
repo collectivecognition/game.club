@@ -31798,7 +31798,7 @@
 	  return function (dispatch) {
 	    dispatch(requestGames(searchTerm));
 
-	    _api2.default.games.get(searchTerm).then(function (json) {
+	    return _api2.default.games.get(searchTerm).then(function (json) {
 	      dispatch(receiveGames(searchTerm, json));
 	    });
 	  };

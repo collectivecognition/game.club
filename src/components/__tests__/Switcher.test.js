@@ -1,15 +1,13 @@
-import React from 'react';
-import render from 'react-test-renderer';
-import { shallow, mount } from 'enzyme';
+import React from 'react'
+import toJSON from 'enzyme-to-json'
+import { shallow, mount } from 'enzyme'
 
-import { Switcher } from '../Switcher';
-
-jest.mock('api');
+import { Switcher } from '../Switcher'
 
 describe('Switcher', () => {
   it('should render initially', () => {
-    const component = render.create(<Switcher games={[]}/>)
-    const tree = component.toJSON()
+    const component = shallow(<Switcher games={[]}/>)
+    const tree = toJSON(component)
     expect(tree).toMatchSnapshot()
   })
 
@@ -23,9 +21,13 @@ describe('Switcher', () => {
 
   it('should call onClick', () => {
     const component = mount(<Switcher games={[]} dispatch={jest.fn()}/>)
-    const button = component.find('button')
-    component.instance().onClick = jest.fn()
-    button.click()
-    expect(component.instance().onClick).toBeCalled()
+    component.instance().onClick()
+    expect(component.props().dispatch).toBeCalled();
+  })
+
+  it('should render results', () => {
+    const component = mount(<Switcher games={[{name: 'Halo'}, {name: 'Zelda'}]}/>)
+    const tree = toJSON(component.find('ul'))
+    expect(tree).toMatchSnapshot()
   })
 });

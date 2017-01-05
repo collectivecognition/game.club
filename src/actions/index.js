@@ -17,10 +17,10 @@ function receiveGames(searchTerm, result) {
 }
 
 export function fetchGames(searchTerm) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(requestGames(searchTerm))
 
-    api.games.get(searchTerm)
+    return api.games.get(searchTerm)
       .then(json => {
         dispatch(receiveGames(searchTerm, json));
       })

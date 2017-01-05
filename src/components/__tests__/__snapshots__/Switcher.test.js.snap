@@ -7,7 +7,17 @@ exports[`Switcher should render initially 1`] = `
     onClick={[Function]}>
     Search
   </button>
-  
   <ul />
 </div>
+`;
+
+exports[`Switcher should render results 1`] = `
+<ul>
+  <li>
+    Halo
+  </li>
+  <li>
+    Zelda
+  </li>
+</ul>
 `;

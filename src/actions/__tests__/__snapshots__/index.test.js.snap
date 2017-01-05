@@ -1,0 +1,32 @@
+exports[`actions should fetch no games 1`] = `
+Array [
+  Object {
+    "searchTerm": "Zelda",
+    "type": "REQUEST_GAMES",
+  },
+  Object {
+    "games": Array [],
+    "type": "RECEIVE_GAMES",
+  },
+]
+`;
+
+exports[`actions should fetch some games 1`] = `
+Array [
+  Object {
+    "searchTerm": "Halo",
+    "type": "REQUEST_GAMES",
+  },
+  Object {
+    "games": Array [
+      Object {
+        "name": "Halo",
+      },
+      Object {
+        "name": "Halo 2",
+      },
+    ],
+    "type": "RECEIVE_GAMES",
+  },
+]
+`;
