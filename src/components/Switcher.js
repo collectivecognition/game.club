@@ -5,7 +5,7 @@ import { fetchGames } from '../actions'
 
 require('./Switcher.styl')
 
-class Switcher extends Component {
+export class Switcher extends Component {
   constructor(props) {
     super(props);
 

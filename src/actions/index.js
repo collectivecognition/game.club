@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch'
+import api from '../api'
 
 export const REQUEST_GAMES = 'REQUEST_GAMES'
 function requestGames(searchTerm) {
@@ -20,8 +20,7 @@ export function fetchGames(searchTerm) {
   return (dispatch) => {
     dispatch(requestGames(searchTerm))
 
-    return fetch(`https://game-club-api.herokuapp.com/games?q=${searchTerm}`)
-      .then(response => response.json())
+    api.games.get(searchTerm)
       .then(json => {
         dispatch(receiveGames(searchTerm, json));
       })

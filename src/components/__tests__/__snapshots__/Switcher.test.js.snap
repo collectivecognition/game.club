@@ -1,9 +1,13 @@
-exports[`Switcher should render 1`] = `
-<div>
-  <input />
+exports[`Switcher should render initially 1`] = `
+<div
+  className="switcher">
+  <input
+    onChange={[Function]} />
   <button
-    onClick={Object {}}>
+    onClick={[Function]}>
     Search
   </button>
+  
+  <ul />
 </div>
 `;
