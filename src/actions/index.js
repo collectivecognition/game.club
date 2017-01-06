@@ -4,7 +4,8 @@ export const REQUEST_GAMES = 'REQUEST_GAMES'
 function requestGames(searchTerm) {
   return {
     type: REQUEST_GAMES,
-    searchTerm
+    searchTerm,
+    isFetching: true
   }
 }
 
@@ -12,7 +13,8 @@ export const RECEIVE_GAMES = 'RECEIVE_GAMES'
 function receiveGames(searchTerm, result) {
   return {
     type: RECEIVE_GAMES,
-    games: result
+    games: result,
+    isFetching: false
   }
 }
 

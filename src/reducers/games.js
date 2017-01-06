@@ -5,14 +5,15 @@ const games = (state = {
   games: []
 }, action) => {
   switch (action.type) {
-    case 'REQUEST_GAMES':
+    case REQUEST_GAMES:
       return Object.assign({}, state, {
-        isFetching: true
+        searchTerm: action.searchTerm,
+        isFetching: action.isFetching
       })
       
-    case 'RECEIVE_GAMES':
+    case RECEIVE_GAMES:
       return Object.assign({}, state, {
-        isFetching: false,
+        isFetching: action.isFetching,
         games: action.games
       })
 

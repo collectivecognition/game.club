@@ -31742,14 +31742,15 @@
 	  var action = arguments[1];
 
 	  switch (action.type) {
-	    case 'REQUEST_GAMES':
+	    case _actions.REQUEST_GAMES:
 	      return Object.assign({}, state, {
-	        isFetching: true
+	        searchTerm: action.searchTerm,
+	        isFetching: action.isFetching
 	      });
 
-	    case 'RECEIVE_GAMES':
+	    case _actions.RECEIVE_GAMES:
 	      return Object.assign({}, state, {
-	        isFetching: false,
+	        isFetching: action.isFetching,
 	        games: action.games
 	      });
 
@@ -31782,7 +31783,8 @@
 	function requestGames(searchTerm) {
 	  return {
 	    type: REQUEST_GAMES,
-	    searchTerm: searchTerm
+	    searchTerm: searchTerm,
+	    isFetching: true
 	  };
 	}
 
@@ -31790,7 +31792,8 @@
 	function receiveGames(searchTerm, result) {
 	  return {
 	    type: RECEIVE_GAMES,
-	    games: result
+	    games: result,
+	    isFetching: false
 	  };
 	}
 
@@ -31849,6 +31852,8 @@
 	var _Switcher2 = _interopRequireDefault(_Switcher);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	__webpack_require__(526);
 
 	var App = function App() {
 	  return _react2.default.createElement(
@@ -32779,6 +32784,47 @@
 	  }
 	  self.fetch.polyfill = true
 	})(typeof self !== 'undefined' ? self : this);
+
+
+/***/ },
+/* 525 */,
+/* 526 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(527);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(522)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/stylus-loader/index.js!./App.styl", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/stylus-loader/index.js!./App.styl");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 527 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(521)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "body {\n  background: #fff;\n}\n", ""]);
+
+	// exports
 
 
 /***/ }

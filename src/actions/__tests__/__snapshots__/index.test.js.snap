@@ -1,11 +1,13 @@
 exports[`actions should fetch no games 1`] = `
 Array [
   Object {
+    "isFetching": true,
     "searchTerm": "Zelda",
     "type": "REQUEST_GAMES",
   },
   Object {
     "games": Array [],
+    "isFetching": false,
     "type": "RECEIVE_GAMES",
   },
 ]
@@ -14,6 +16,7 @@ Array [
 exports[`actions should fetch some games 1`] = `
 Array [
   Object {
+    "isFetching": true,
     "searchTerm": "Halo",
     "type": "REQUEST_GAMES",
   },
@@ -26,6 +29,7 @@ Array [
         "name": "Halo 2",
       },
     ],
+    "isFetching": false,
     "type": "RECEIVE_GAMES",
   },
 ]
