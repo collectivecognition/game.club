@@ -2,12 +2,12 @@ import React from 'react'
 
 import Switcher from './Switcher'
 
-require('./App.styl')
+require('./Home.styl')
 
-const App = () => (
+const Home = () => (
   <div>
     <Switcher/>
   </div>
 )
 
-export default App
+export default Home
