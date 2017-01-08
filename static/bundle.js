@@ -74,7 +74,7 @@
 
 	var _Game2 = _interopRequireDefault(_Game);
 
-	var _Home = __webpack_require__(584);
+	var _Home = __webpack_require__(869);
 
 	var _Home2 = _interopRequireDefault(_Home);
 
@@ -36558,6 +36558,18 @@
 	        games: action.games
 	      });
 
+	    case _actions.REQUEST_GAME:
+	      return Object.assign({}, state, {
+	        isFetching: action.isFetching,
+	        game: action.game
+	      });
+
+	    case _actions.RECEIVE_GAME:
+	      return Object.assign({}, state, {
+	        isFetching: action.isFetching,
+	        game: action.game
+	      });
+
 	    default:
 	      return state;
 	  }
@@ -36574,8 +36586,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.RECEIVE_GAMES = exports.REQUEST_GAMES = undefined;
+	exports.RECEIVE_GAME = exports.REQUEST_GAME = exports.RECEIVE_GAMES = exports.REQUEST_GAMES = undefined;
 	exports.fetchGames = fetchGames;
+	exports.fetchGame = fetchGame;
 
 	var _api = __webpack_require__(569);
 
@@ -36611,6 +36624,35 @@
 	  };
 	}
 
+	var REQUEST_GAME = exports.REQUEST_GAME = 'REQUEST_GAME';
+	function requestGame(id) {
+	  return {
+	    type: REQUEST_GAME,
+	    id: id,
+	    game: null,
+	    isFetching: true
+	  };
+	}
+
+	var RECEIVE_GAME = exports.RECEIVE_GAME = 'RECEIVE_GAME';
+	function receiveGame(id, result) {
+	  return {
+	    type: RECEIVE_GAME,
+	    game: result,
+	    isFetching: false
+	  };
+	}
+
+	function fetchGame(id) {
+	  return function (dispatch) {
+	    dispatch(requestGame(id));
+
+	    return _api2.default.game.get(id).then(function (json) {
+	      dispatch(receiveGame(id, json));
+	    });
+	  };
+	}
+
 /***/ },
 /* 569 */
 /***/ function(module, exports, __webpack_require__) {
@@ -36627,10 +36669,19 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var prefix = 'https://game-club-api.herokuapp.com';
+
 	exports.default = {
 	  games: {
 	    get: function get(searchTerm) {
-	      return (0, _isomorphicFetch2.default)('https://game-club-api.herokuapp.com/games?q=' + searchTerm).then(function (response) {
+	      return (0, _isomorphicFetch2.default)(prefix + '/games?q=' + searchTerm).then(function (response) {
+	        return response.json();
+	      });
+	    }
+	  },
+	  game: {
+	    get: function get(id) {
+	      return (0, _isomorphicFetch2.default)(prefix + '/games/' + id).then(function (response) {
 	        return response.json();
 	      });
 	    }
@@ -37504,9 +37555,13 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+	var _reactRedux = __webpack_require__(179);
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _actions = __webpack_require__(568);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37516,7 +37571,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(582);
+	__webpack_require__(867);
 
 	var Game = exports.Game = function (_Component) {
 	  _inherits(Game, _Component);
@@ -37528,20 +37583,21 @@
 	  }
 
 	  _createClass(Game, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.dispatch((0, _actions.fetchGame)(this.props.params.id));
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'jumbotron' },
-	        _react2.default.createElement(
+	        null,
+	        this.props.isFetching && 'Loading...',
+	        this.props.game && _react2.default.createElement(
 	          'h1',
 	          null,
-	          'Hello world!'
-	        ),
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          this.props.params.id
+	          this.props.game.name
 	        )
 	      );
 	    }
@@ -37550,16 +37606,309 @@
 	  return Game;
 	}(_react.Component);
 
-	exports.default = Game;
+	Game.PropTypes = {
+	  dispatch: _react.PropTypes.func.isRequired
+	};
+
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return state.games;
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps)(Game);
 
 /***/ },
-/* 582 */
+/* 582 */,
+/* 583 */,
+/* 584 */,
+/* 585 */,
+/* 586 */,
+/* 587 */,
+/* 588 */,
+/* 589 */,
+/* 590 */,
+/* 591 */,
+/* 592 */,
+/* 593 */,
+/* 594 */,
+/* 595 */,
+/* 596 */,
+/* 597 */,
+/* 598 */,
+/* 599 */,
+/* 600 */,
+/* 601 */,
+/* 602 */,
+/* 603 */,
+/* 604 */,
+/* 605 */,
+/* 606 */,
+/* 607 */,
+/* 608 */,
+/* 609 */,
+/* 610 */,
+/* 611 */,
+/* 612 */,
+/* 613 */,
+/* 614 */,
+/* 615 */,
+/* 616 */,
+/* 617 */,
+/* 618 */,
+/* 619 */,
+/* 620 */,
+/* 621 */,
+/* 622 */,
+/* 623 */,
+/* 624 */,
+/* 625 */,
+/* 626 */,
+/* 627 */,
+/* 628 */,
+/* 629 */,
+/* 630 */,
+/* 631 */,
+/* 632 */,
+/* 633 */,
+/* 634 */,
+/* 635 */,
+/* 636 */,
+/* 637 */,
+/* 638 */,
+/* 639 */,
+/* 640 */,
+/* 641 */,
+/* 642 */,
+/* 643 */,
+/* 644 */,
+/* 645 */,
+/* 646 */,
+/* 647 */,
+/* 648 */,
+/* 649 */,
+/* 650 */,
+/* 651 */,
+/* 652 */,
+/* 653 */,
+/* 654 */,
+/* 655 */,
+/* 656 */,
+/* 657 */,
+/* 658 */,
+/* 659 */,
+/* 660 */,
+/* 661 */,
+/* 662 */,
+/* 663 */,
+/* 664 */,
+/* 665 */,
+/* 666 */,
+/* 667 */,
+/* 668 */,
+/* 669 */,
+/* 670 */,
+/* 671 */,
+/* 672 */,
+/* 673 */,
+/* 674 */,
+/* 675 */,
+/* 676 */,
+/* 677 */,
+/* 678 */,
+/* 679 */,
+/* 680 */,
+/* 681 */,
+/* 682 */,
+/* 683 */,
+/* 684 */,
+/* 685 */,
+/* 686 */,
+/* 687 */,
+/* 688 */,
+/* 689 */,
+/* 690 */,
+/* 691 */,
+/* 692 */,
+/* 693 */,
+/* 694 */,
+/* 695 */,
+/* 696 */,
+/* 697 */,
+/* 698 */,
+/* 699 */,
+/* 700 */,
+/* 701 */,
+/* 702 */,
+/* 703 */,
+/* 704 */,
+/* 705 */,
+/* 706 */,
+/* 707 */,
+/* 708 */,
+/* 709 */,
+/* 710 */,
+/* 711 */,
+/* 712 */,
+/* 713 */,
+/* 714 */,
+/* 715 */,
+/* 716 */,
+/* 717 */,
+/* 718 */,
+/* 719 */,
+/* 720 */,
+/* 721 */,
+/* 722 */,
+/* 723 */,
+/* 724 */,
+/* 725 */,
+/* 726 */,
+/* 727 */,
+/* 728 */,
+/* 729 */,
+/* 730 */,
+/* 731 */,
+/* 732 */,
+/* 733 */,
+/* 734 */,
+/* 735 */,
+/* 736 */,
+/* 737 */,
+/* 738 */,
+/* 739 */,
+/* 740 */,
+/* 741 */,
+/* 742 */,
+/* 743 */,
+/* 744 */,
+/* 745 */,
+/* 746 */,
+/* 747 */,
+/* 748 */,
+/* 749 */,
+/* 750 */,
+/* 751 */,
+/* 752 */,
+/* 753 */,
+/* 754 */,
+/* 755 */,
+/* 756 */,
+/* 757 */,
+/* 758 */,
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */,
+/* 764 */,
+/* 765 */,
+/* 766 */,
+/* 767 */,
+/* 768 */,
+/* 769 */,
+/* 770 */,
+/* 771 */,
+/* 772 */,
+/* 773 */,
+/* 774 */,
+/* 775 */,
+/* 776 */,
+/* 777 */,
+/* 778 */,
+/* 779 */,
+/* 780 */,
+/* 781 */,
+/* 782 */,
+/* 783 */,
+/* 784 */,
+/* 785 */,
+/* 786 */,
+/* 787 */,
+/* 788 */,
+/* 789 */,
+/* 790 */,
+/* 791 */,
+/* 792 */,
+/* 793 */,
+/* 794 */,
+/* 795 */,
+/* 796 */,
+/* 797 */,
+/* 798 */,
+/* 799 */,
+/* 800 */,
+/* 801 */,
+/* 802 */,
+/* 803 */,
+/* 804 */,
+/* 805 */,
+/* 806 */,
+/* 807 */,
+/* 808 */,
+/* 809 */,
+/* 810 */,
+/* 811 */,
+/* 812 */,
+/* 813 */,
+/* 814 */,
+/* 815 */,
+/* 816 */,
+/* 817 */,
+/* 818 */,
+/* 819 */,
+/* 820 */,
+/* 821 */,
+/* 822 */,
+/* 823 */,
+/* 824 */,
+/* 825 */,
+/* 826 */,
+/* 827 */,
+/* 828 */,
+/* 829 */,
+/* 830 */,
+/* 831 */,
+/* 832 */,
+/* 833 */,
+/* 834 */,
+/* 835 */,
+/* 836 */,
+/* 837 */,
+/* 838 */,
+/* 839 */,
+/* 840 */,
+/* 841 */,
+/* 842 */,
+/* 843 */,
+/* 844 */,
+/* 845 */,
+/* 846 */,
+/* 847 */,
+/* 848 */,
+/* 849 */,
+/* 850 */,
+/* 851 */,
+/* 852 */,
+/* 853 */,
+/* 854 */,
+/* 855 */,
+/* 856 */,
+/* 857 */,
+/* 858 */,
+/* 859 */,
+/* 860 */,
+/* 861 */,
+/* 862 */,
+/* 863 */,
+/* 864 */,
+/* 865 */,
+/* 866 */,
+/* 867 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(583);
+	var content = __webpack_require__(868);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(580)(content, {});
@@ -37579,7 +37928,7 @@
 	}
 
 /***/ },
-/* 583 */
+/* 868 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(574)();
@@ -37593,7 +37942,7 @@
 
 
 /***/ },
-/* 584 */
+/* 869 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37606,13 +37955,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Switcher = __webpack_require__(585);
+	var _Switcher = __webpack_require__(870);
 
 	var _Switcher2 = _interopRequireDefault(_Switcher);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(588);
+	__webpack_require__(873);
 
 	var Home = function Home() {
 	  return _react2.default.createElement(
@@ -37625,7 +37974,7 @@
 	exports.default = Home;
 
 /***/ },
-/* 585 */
+/* 870 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37643,6 +37992,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(217);
+
 	var _actions = __webpack_require__(568);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -37653,7 +38004,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(586);
+	__webpack_require__(871);
 
 	var Switcher = exports.Switcher = function (_Component) {
 	  _inherits(Switcher, _Component);
@@ -37692,7 +38043,7 @@
 	          { onClick: this.onClick },
 	          'Search'
 	        ),
-	        this.props.isFetching ? 'Loading...' : '',
+	        this.props.isFetching && 'Loading...',
 	        _react2.default.createElement(
 	          'ul',
 	          null,
@@ -37700,7 +38051,11 @@
 	            return _react2.default.createElement(
 	              'li',
 	              { key: index },
-	              game.name
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/game/' + game.id },
+	                game.name
+	              )
 	            );
 	          })
 	        )
@@ -37722,13 +38077,13 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps)(Switcher);
 
 /***/ },
-/* 586 */
+/* 871 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(587);
+	var content = __webpack_require__(872);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(580)(content, {});
@@ -37748,7 +38103,7 @@
 	}
 
 /***/ },
-/* 587 */
+/* 872 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(574)();
@@ -37762,13 +38117,13 @@
 
 
 /***/ },
-/* 588 */
+/* 873 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(589);
+	var content = __webpack_require__(874);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(580)(content, {});
@@ -37788,7 +38143,7 @@
 	}
 
 /***/ },
-/* 589 */
+/* 874 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(574)();

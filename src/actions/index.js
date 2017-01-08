@@ -28,3 +28,33 @@ export function fetchGames(searchTerm) {
       })
   }
 }
+
+export const REQUEST_GAME = 'REQUEST_GAME'
+function requestGame(id) {
+  return {
+    type: REQUEST_GAME,
+    id,
+    game: null,
+    isFetching: true
+  }
+}
+
+export const RECEIVE_GAME = 'RECEIVE_GAME'
+function receiveGame(id, result) {
+  return {
+    type: RECEIVE_GAME,
+    game: result,
+    isFetching: false
+  }
+}
+
+export function fetchGame(id) {
+  return dispatch => {
+    dispatch(requestGame(id))
+
+    return api.game.get(id)
+      .then(json => {
+        dispatch(receiveGame(id, json))
+      })
+  }
+}

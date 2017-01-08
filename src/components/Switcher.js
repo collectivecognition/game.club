@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
 
 import { fetchGames } from '../actions'
 
@@ -28,10 +29,12 @@ export class Switcher extends Component {
       <div className="switcher">
         <input onChange={this.onChange}></input>
         <button onClick={this.onClick}>Search</button>
-        {this.props.isFetching ? 'Loading...' : ''}
+        {this.props.isFetching && 'Loading...'}
         <ul>
           {this.props.games.map((game, index) =>
-            <li key={index}>{game.name}</li>
+            <li key={index}>
+              <Link to={`/game/${game.id}`}>{game.name}</Link>
+            </li>
           )}
         </ul>
       </div>
