@@ -7,6 +7,8 @@ import { Router, Route, hashHistory } from 'react-router'
 import 'babel-polyfill'
 import rootReducers from './reducers'
 
+import 'bootstrap/dist/css/bootstrap.css'
+
 import Game from './components/Game'
 import Home from './components/Home'
 
